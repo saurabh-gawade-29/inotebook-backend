@@ -118,7 +118,7 @@ router.post("/getuser", fetchuser, async (req, res) => {
     const user = await User.findById(userId).select("-password");
     res.send(user);
   } catch (error) {
-    return res.status(500).send("Internal Server Error");
+    return res.status(500).send("  Internal Server Error");
   }
 });
 
