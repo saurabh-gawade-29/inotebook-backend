@@ -3,7 +3,6 @@ const JWT_SECRET = "checkpayloadchangeornot";
 
 //! WHAT IS NEXT?
 /*
-* 
 1.  here we create a middleware 
 2.  see the auth.js 
     router.post("/userdetail", fetchuser, async (req, res) => {}
