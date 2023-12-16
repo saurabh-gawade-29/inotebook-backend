@@ -1,12 +1,13 @@
 // We make connection to mongo in this file
 const connectToMongo = require("./db");
 const express = require("express");
+var cors = require("cors");
 
 connectToMongo();
 const app = express();
 const port = 5000;
 
-//! usecase: Returns middleware that only parses json and only looks at requests where the Content-Type header matches the
+app.use(cors());
 app.use(express.json());
 
 //! Available Routes
