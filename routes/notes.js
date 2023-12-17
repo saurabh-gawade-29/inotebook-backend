@@ -12,7 +12,6 @@ router.get("/fetchallnotes", fetchuser, async (req, res) => {
     });
     res.json(notes);
   } catch (error) {
-    console.log(error, "Error from fetchallnotes from notes.js");
     res.status(500).send("Internal Server Error");
   }
 });
@@ -36,7 +35,8 @@ router.post(
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({
-          error: errors.array(),
+          // error: errors.array(),
+          error: "Validation Error",
         });
       }
       const note = new Notes({
@@ -48,7 +48,6 @@ router.post(
       const saveNote = await note.save();
       res.json(saveNote);
     } catch (error) {
-      console.log(error, "Error from addnote from notes.js");
       res.status(500).send("Internal Server Error");
     }
   }
@@ -84,7 +83,6 @@ router.put("/updatenote/:id", fetchuser, async (req, res) => {
     );
     res.json({ note });
   } catch (error) {
-    console.log(error, "Error from fetchallnotes from notes.js");
     res.status(500).send("Internal Server Error");
   }
 });
@@ -92,7 +90,6 @@ router.put("/updatenote/:id", fetchuser, async (req, res) => {
 router.delete("/deletenote/:id", fetchuser, async (req, res) => {
   try {
     const { title, description, tag } = req.body;
-
     let note = await Notes.findById(req.params.id);
     if (!note) {
       return res.status(404).send("Not Found");
@@ -100,11 +97,9 @@ router.delete("/deletenote/:id", fetchuser, async (req, res) => {
     if (note.user.toString() !== req.user.id) {
       return res.status(401).send("Not Allowed");
     }
-
     note = await Notes.findByIdAndDelete(req.params.id);
     res.json({ Success: "Note has been Deleted", note: note });
   } catch (error) {
-    console.log(error, "Error from fetchallnotes from notes.js");
     res.status(500).send("Internal Server Error");
   }
 });

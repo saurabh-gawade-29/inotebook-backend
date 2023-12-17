@@ -23,7 +23,8 @@ router.post(
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
-        errors: errors.array(),
+        // errors: errors.array(),
+        errors: "Validation Error",
       });
     }
     //Check the email already exist or not
@@ -49,13 +50,11 @@ router.post(
             },
           };
           const authToken = jwt.sign(data, JWT_SECRET);
-          console.log(authToken, "Check");
           success = true;
           // return res.json(user);
           return res.json({ success, authToken });
         })
         .catch((error) => {
-          console.log(error, "Error in Auth.js");
           res.json({
             error: "This User is Already Exist",
             message: error.message,
@@ -64,7 +63,6 @@ router.post(
       // no need to save user.save explicitly
       // user,save();
     } catch (error) {
-      console.log(error, "Error in Try Catch block of auth.js");
       res.status(500).json({
         success,
         message: "Somthing went wrong",
@@ -85,7 +83,8 @@ router.post(
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
-        error: error.array(),
+        // error: error.array(),
+        error: "Validation Error",
       });
     }
     const { email, password } = req.body;
