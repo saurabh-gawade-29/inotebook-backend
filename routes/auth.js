@@ -30,14 +30,18 @@ router.post(
     //Check the email already exist or not
     try {
       let user = await User.findOne({ email: req.body.email });
-      if (user) {
-        return res.status(200).json({
-          success,
-          error: "Sorry a user with this email already exists",
-        });
+
+      if (user !== null) {
+        if (user) {
+          return res.status(200).json({
+            success,
+            error: "Sorry a user with this email already exists",
+          });
+        }
       }
       const salt = await bcrypt.genSalt(10);
       const secPass = await bcrypt.hash(req.body.password, salt);
+
       await User.create({
         name: req.body.name,
         email: req.body.email,
@@ -52,9 +56,10 @@ router.post(
           const authToken = jwt.sign(data, JWT_SECRET);
           success = true;
           // return res.json(user);
-          return res.json({ success, authToken });
+          return res.status(200).json({ success, authToken });
         })
         .catch((error) => {
+          console.log(error);
           res.json({
             error: "This User is Already Exist",
             message: error.message,
